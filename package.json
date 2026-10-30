@@ -1,0 +1,11 @@
+{
+  "name": "pokemon-event-driven",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test src/domain/runTurn.test.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6"
+  }
+}
