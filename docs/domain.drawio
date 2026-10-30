@@ -1,0 +1,156 @@
+<mxfile host="65bd71144e">
+    <diagram id="domain-model" name="ドメインモデル">
+        <mxGraphModel dx="1511" dy="851" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1680" pageHeight="1080" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="context" value="境界づけられたコンテキスト: 通常ターン（1対1、2ターン目以降）" style="rounded=1;whiteSpace=wrap;html=1;dashed=1;dashPattern=8 4;fillColor=#ffffff;strokeColor=#666666;fontStyle=1;fontSize=16;verticalAlign=top;align=left;spacingLeft=16;spacingTop=10;arcSize=4;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="40" width="1600" height="900" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend" value="青 = 集約　　緑 = エンティティ　　黄 = 値オブジェクト　　橙 = 出来事　　紫 = ドメインサービス" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="64" y="84" width="900" height="28" as="geometry"/>
+                </mxCell>
+                <mxCell id="attack" value="&lt;b&gt;AttackAction&lt;/b&gt;&lt;br&gt;&lt;font color='#666666'&gt;値オブジェクト&lt;/font&gt;&lt;hr&gt;kind: attack&lt;br&gt;damage: number&lt;hr&gt;&lt;b&gt;Actions&lt;/b&gt;&lt;br&gt;Pokemon.id → AttackAction&lt;br&gt;双方の攻撃が揃った入力" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=12;spacingRight=10;spacingTop=8;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="140" width="300" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="battle" value="&lt;b&gt;Battle&lt;/b&gt;&lt;br&gt;&lt;font color='#666666'&gt;集約ルート&lt;/font&gt;&lt;hr&gt;turn: number&lt;br&gt;pokemon: [Pokemon, Pokemon]&lt;hr&gt;1ターンの状態。場にいる2体を持つ" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=12;spacingRight=10;spacingTop=8;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="140" width="320" height="170" as="geometry"/>
+                </mxCell>
+                <mxCell id="pokemon" value="&lt;b&gt;Pokemon&lt;/b&gt;&lt;br&gt;&lt;font color='#666666'&gt;エンティティ&lt;/font&gt;&lt;hr&gt;id: string&lt;br&gt;name: string&lt;br&gt;hp: number&lt;br&gt;speed: number&lt;hr&gt;比較とログが使うのは id と speed。表示名では順を決めない" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=12;spacingRight=10;spacingTop=8;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="130" width="340" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="order" value="&lt;b&gt;orderBySpeed&lt;/b&gt;&lt;br&gt;&lt;font color='#666666'&gt;ドメインサービス&lt;/font&gt;&lt;hr&gt;(a: Pokemon, b: Pokemon)&lt;br&gt;→ [先攻, 後攻]&lt;hr&gt;speed が大きい方を先攻にする&lt;br&gt;同速・優先度・トリックルームは未定義" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=12;spacingRight=10;spacingTop=8;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="1100" y="360" width="330" height="180" as="geometry"/>
+                </mxCell>
+                <mxCell id="run" value="&lt;b&gt;runTurn&lt;/b&gt;&lt;br&gt;&lt;font color='#666666'&gt;ドメインサービス&lt;/font&gt;&lt;hr&gt;(battle: Battle, actions: Actions) → TurnResult&lt;hr&gt;1ターンの手順を持つ&lt;br&gt;入力の Battle は変更しない&lt;br&gt;MoveUsed のあと HP を減らし、DamageApplied を積む&lt;br&gt;TurnEnded のあと turn を 1 増やす&lt;br&gt;購読やハンドラは持たない" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=12;spacingRight=10;spacingTop=8;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="400" width="520" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="result" value="&lt;b&gt;TurnResult&lt;/b&gt;&lt;br&gt;&lt;font color='#666666'&gt;値オブジェクト&lt;/font&gt;&lt;hr&gt;battle: Battle&lt;br&gt;events: BattleEvent[]" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=12;spacingRight=10;spacingTop=8;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="70" y="680" width="300" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="events" value="&lt;b&gt;BattleEvent&lt;/b&gt;&lt;br&gt;&lt;font color='#666666'&gt;出来事。値オブジェクトの列。手順の結果ログ&lt;/font&gt;&lt;hr&gt;TurnStarted&amp;nbsp;&amp;nbsp;turn&lt;br&gt;ActionsSelected&amp;nbsp;&amp;nbsp;actions&lt;br&gt;ActionOrderDetermined&amp;nbsp;&amp;nbsp;first, second&lt;br&gt;MoveUsed&amp;nbsp;&amp;nbsp;actor&lt;br&gt;DamageApplied&amp;nbsp;&amp;nbsp;target, damage, hpAfter&lt;br&gt;TurnEnded&amp;nbsp;&amp;nbsp;turn" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=12;spacingRight=10;spacingTop=8;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="680" width="520" height="210" as="geometry"/>
+                </mxCell>
+                <mxCell id="outside" value="&lt;b&gt;このコンテキストの外&lt;/b&gt;&lt;br&gt;優先度、同速、命中と回避、急所、タイプ相性、ダメージ計算、ひんし、勝敗、交代、特性、持ち物、状態異常、天候。モデルにも関数にもまだ置かない。" style="rounded=1;whiteSpace=wrap;html=1;align=left;verticalAlign=top;spacingLeft=12;spacingTop=8;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;fontSize=13;fontColor=#333333;" parent="1" vertex="1">
+                    <mxGeometry x="1060" y="680" width="550" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-contain" value="2" style="startArrow=diamondThin;startFill=1;startSize=16;endArrow=none;html=1;rounded=0;strokeWidth=1.5;fontSize=13;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="battle" target="pokemon" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-actions" value="入力" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;fontSize=12;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" parent="1" source="attack" target="run" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-battle" value="入力" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;fontSize=12;labelBackgroundColor=#ffffff;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="battle" target="run" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-order" value="行動順を尋ねる" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;fontSize=12;labelBackgroundColor=#ffffff;exitX=1;exitY=0.35;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="run" target="order" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-result" value="返す" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1.5;fontSize=12;labelBackgroundColor=#ffffff;exitX=0;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="run" target="result" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-events" value="events" style="endArrow=diamondThin;endFill=0;endSize=16;startArrow=none;html=1;rounded=0;strokeWidth=1.5;fontSize=12;labelBackgroundColor=#ffffff;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="result" target="events" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="turn-flow" name="ターン手順">
+        <mxGraphModel dx="1100" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="980" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="flow-title" value="runTurn が1ターンで行うこと。右は、その時点で積む出来事。" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=16;fontStyle=1;fontColor=#333333;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="24" width="1080" height="32" as="geometry"/>
+                </mxCell>
+                <mxCell id="h-proc" value="手順" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="64" width="200" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="h-event" value="出来事" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=13;fontStyle=1;fontColor=#666666;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="64" width="200" height="24" as="geometry"/>
+                </mxCell>
+                <mxCell id="p1" value="1. 開始ターンを記録する" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="100" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="v1" value="TurnStarted { turn }" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="100" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="p2" value="2. 双方の攻撃を受け取る" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="176" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="v2" value="ActionsSelected { actions }" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="176" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="p3" value="3. orderBySpeed で先攻を決める" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="252" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="v3" value="記録しない。戻り値を次の出来事に使う" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="252" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="p4" value="4. 先攻と後攻を記録する" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="328" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="v4" value="ActionOrderDetermined { first, second }" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="328" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="p5" value="5. 先攻の技使用を記録する。HP はまだ変えない" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="404" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="v5" value="MoveUsed { actor }" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="404" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="p6" value="6. 相手の HP から固定ダメージを引く" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="480" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="v6" value="DamageApplied { target, damage, hpAfter }" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="480" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="p7" value="7. 後攻の技使用を記録する。HP はまだ変えない" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="556" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="v7" value="MoveUsed { actor }" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="556" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="p8" value="8. 相手の HP から固定ダメージを引く" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="632" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="v8" value="DamageApplied { target, damage, hpAfter }" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="632" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="p9" value="9. 終了ターンを記録し、そのあと turn を 1 増やす" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="708" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="v9" value="TurnEnded { turn }。返る Battle.turn は +1" style="rounded=0;whiteSpace=wrap;html=1;align=left;spacingLeft=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="708" width="520" height="48" as="geometry"/>
+                </mxCell>
+                <mxCell id="case" value="CASE-01: ピカチュウ speed 90 / damage 20 が先攻、フシギダネ speed 45 / damage 15 が後攻。終了時 HP は 85 / 80、turn は 3。出来事は 8 件。" style="rounded=0;whiteSpace=wrap;html=1;align=left;verticalAlign=middle;spacingLeft=12;spacingRight=12;fillColor=#ffffff;strokeColor=#666666;fontSize=13;" vertex="1" parent="1">
+                    <mxGeometry x="40" y="784" width="1100" height="56" as="geometry"/>
+                </mxCell>
+                <mxCell id="a1" style="endArrow=block;endFill=1;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p1" target="p2">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a2" style="endArrow=block;endFill=1;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p2" target="p3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a3" style="endArrow=block;endFill=1;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p3" target="p4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a4" style="endArrow=block;endFill=1;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p4" target="p5">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a5" style="endArrow=block;endFill=1;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p5" target="p6">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a6" style="endArrow=block;endFill=1;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p6" target="p7">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a7" style="endArrow=block;endFill=1;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p7" target="p8">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="a8" style="endArrow=block;endFill=1;html=1;strokeColor=#6c8ebf;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" edge="1" parent="1" source="p8" target="p9">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
