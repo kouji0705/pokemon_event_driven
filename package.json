@@ -3,9 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test src/domain/runTurn.test.ts"
+    "start": "tsx src/main.ts",
+    "test": "tsx --test src/domain/runTurn.test.ts"
   },
   "devDependencies": {
-    "@types/node": "^26.6.6"
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
   }
 }

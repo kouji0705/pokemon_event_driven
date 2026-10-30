@@ -1,11 +1,17 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import type { Actions, Battle, BattleEvent } from "./model.ts";
+import {
+  ActionKind,
+  BattleEventType,
+  type Actions,
+  type Battle,
+  type BattleEvent,
+} from "./model.ts";
 import { runTurn } from "./runTurn.ts";
 
 const case01Actions: Actions = {
-  pikachu: { kind: "attack", damage: 20 },
-  bulbasaur: { kind: "attack", damage: 15 },
+  pikachu: { kind: ActionKind.Attack, damage: 20 },
+  bulbasaur: { kind: ActionKind.Attack, damage: 15 },
 };
 
 function case01Battle(): Battle {
@@ -46,47 +52,61 @@ test("素早さを入れ替えると先攻が入れ替わる", () => {
   assert.deepEqual(
     events.map((event) => event.type),
     [
-      "TurnStarted",
-      "ActionsSelected",
-      "ActionOrderDetermined",
-      "MoveUsed",
-      "DamageApplied",
-      "MoveUsed",
-      "DamageApplied",
-      "TurnEnded",
+      BattleEventType.TurnStarted,
+      BattleEventType.ActionsSelected,
+      BattleEventType.ActionOrderDetermined,
+      BattleEventType.MoveUsed,
+      BattleEventType.DamageApplied,
+      BattleEventType.MoveUsed,
+      BattleEventType.DamageApplied,
+      BattleEventType.TurnEnded,
     ],
   );
   assert.deepEqual(events[2], {
-    type: "ActionOrderDetermined",
+    type: BattleEventType.ActionOrderDetermined,
     first: "bulbasaur",
     second: "pikachu",
   });
-  assert.deepEqual(events[3], { type: "MoveUsed", actor: "bulbasaur" });
+  assert.deepEqual(events[3], { type: BattleEventType.MoveUsed, actor: "bulbasaur" });
   assert.deepEqual(events[4], {
-    type: "DamageApplied",
+    type: BattleEventType.DamageApplied,
     target: "pikachu",
     damage: 15,
     hpAfter: 85,
   });
-  assert.deepEqual(events[5], { type: "MoveUsed", actor: "pikachu" });
+  assert.deepEqual(events[5], { type: BattleEventType.MoveUsed, actor: "pikachu" });
   assert.deepEqual(events[6], {
-    type: "DamageApplied",
+    type: BattleEventType.DamageApplied,
     target: "bulbasaur",
     damage: 20,
     hpAfter: 80,
   });
-  assert.deepEqual(events[7], { type: "TurnEnded", turn: 2 });
+  assert.deepEqual(events[7], { type: BattleEventType.TurnEnded, turn: 2 });
 });
 
 function case01Events(): BattleEvent[] {
   return [
-    { type: "TurnStarted", turn: 2 },
-    { type: "ActionsSelected", actions: case01Actions },
-    { type: "ActionOrderDetermined", first: "pikachu", second: "bulbasaur" },
-    { type: "MoveUsed", actor: "pikachu" },
-    { type: "DamageApplied", target: "bulbasaur", damage: 20, hpAfter: 80 },
-    { type: "MoveUsed", actor: "bulbasaur" },
-    { type: "DamageApplied", target: "pikachu", damage: 15, hpAfter: 85 },
-    { type: "TurnEnded", turn: 2 },
+    { type: BattleEventType.TurnStarted, turn: 2 },
+    { type: BattleEventType.ActionsSelected, actions: case01Actions },
+    {
+      type: BattleEventType.ActionOrderDetermined,
+      first: "pikachu",
+      second: "bulbasaur",
+    },
+    { type: BattleEventType.MoveUsed, actor: "pikachu" },
+    {
+      type: BattleEventType.DamageApplied,
+      target: "bulbasaur",
+      damage: 20,
+      hpAfter: 80,
+    },
+    { type: BattleEventType.MoveUsed, actor: "bulbasaur" },
+    {
+      type: BattleEventType.DamageApplied,
+      target: "pikachu",
+      damage: 15,
+      hpAfter: 85,
+    },
+    { type: BattleEventType.TurnEnded, turn: 2 },
   ];
 }

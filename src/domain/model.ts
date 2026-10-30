@@ -1,3 +1,16 @@
+export enum ActionKind {
+  Attack = "attack",
+}
+
+export enum BattleEventType {
+  TurnStarted = "TurnStarted",
+  ActionsSelected = "ActionsSelected",
+  ActionOrderDetermined = "ActionOrderDetermined",
+  MoveUsed = "MoveUsed",
+  DamageApplied = "DamageApplied",
+  TurnEnded = "TurnEnded",
+}
+
 export type Pokemon = {
   id: string;
   name: string;
@@ -11,24 +24,24 @@ export type Battle = {
 };
 
 export type AttackAction = {
-  kind: "attack";
+  kind: ActionKind;
   damage: number;
 };
 
 export type Actions = Record<string, AttackAction>;
 
 export type BattleEvent =
-  | { type: "TurnStarted"; turn: number }
-  | { type: "ActionsSelected"; actions: Actions }
-  | { type: "ActionOrderDetermined"; first: string; second: string }
-  | { type: "MoveUsed"; actor: string }
+  | { type: BattleEventType.TurnStarted; turn: number }
+  | { type: BattleEventType.ActionsSelected; actions: Actions }
+  | { type: BattleEventType.ActionOrderDetermined; first: string; second: string }
+  | { type: BattleEventType.MoveUsed; actor: string }
   | {
-      type: "DamageApplied";
+      type: BattleEventType.DamageApplied;
       target: string;
       damage: number;
       hpAfter: number;
     }
-  | { type: "TurnEnded"; turn: number };
+  | { type: BattleEventType.TurnEnded; turn: number };
 
 export type TurnResult = {
   battle: Battle;

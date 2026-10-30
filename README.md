@@ -171,7 +171,7 @@ STEP 02 は、STEP 01 の素早さ比較を拡張する。比較処理は 1 箇�
 
 ## 実装状況
 
-STEP 01 / CASE-01 を `src/domain` に実装済み。実行時の依存はなく、`npm test` で確認する。エディタの型解決に `@types/node` を使う。ドメインの関係は [docs/domain.drawio](docs/domain.drawio) にまとめてある。
+STEP 01 / CASE-01 を `src/domain` に実装済み。`npm start` で CASE-01 を表示し、`npm test` で確認する。enum を実行するため起動には tsx を使う。ドメインの関係は [docs/domain.drawio](docs/domain.drawio) にまとめてある。記事は [.article/step1.md](.article/step1.md)。
 
 | 責務 | 場所 |
 |---|---|
